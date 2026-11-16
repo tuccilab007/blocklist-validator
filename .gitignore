@@ -1,0 +1,24 @@
+# Segredos: NUNCA versionar
+.env
+
+# Ambiente virtual (cada pessoa recria com requirements.txt)
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Gerados em execução
+logs/
+data/output/*
+!data/output/.gitkeep
+
+# Arquivos temporários do Excel (aparecem quando a planilha está aberta)
+~$*
+
+# Editor e sistema
+.vscode/
+Thumbs.db
+# Gerado pelo pip install -e .
+*.egg-info/

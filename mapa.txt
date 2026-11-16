@@ -1,0 +1,81 @@
+Mapa do projeto
+
+Capítulo 0: Ambiente (estamos aqui)
+
+0.1 Criar a pasta do projeto e abrir no VS Code ✅
+0.2 Rodar o verificarAmbiente.py pela primeira vez ✅
+0.3 Criar o requirements.txt 👈
+0.4 Criar e ativar o .venv
+0.5 Instalar as dependências
+0.6 Resolver o psql no PATH
+0.7 Rodar o verificador de novo e chegar em “Ambiente pronto”
+
+Capítulo 1: A fundação (config, logger, estrutura)
+
+1.1 Criar a estrutura de pastas (src/blocklist, tests, data, logs)
+1.2 Criar .gitignore e .env.example
+1.3 Criar o .env real, com as suas credenciais
+1.4 Escrever config.py e logger.py, com teste
+1.5 git init, primeiro commit e repositório no GitHub
+
+Capítulo 2: O arquivo secreto (PostgreSQL e seed)
+
+2.1 Criar o banco (ou os bancos) e o usuário da aplicação
+2.2 Escrever db.py (conexão com SQLAlchemy) e testar a conexão
+2.3 Criar as tabelas de bloqueio e de funcionários
+2.4 Escrever o seed em SQL, idempotente
+2.5 Validar rodando o seed duas vezes
+
+Capítulo 3: O porteiro (rules)
+
+3.1 Validar CPF pelos dígitos verificadores
+3.2 Consultar a blocklist
+3.3 Regra de ex-funcionário com 90 dias ou menos
+3.4 Definir a precedência e o formato do resultado
+3.5 Testes com pytest para cada desfecho
+
+Capítulo 4: A guarita (formulário em Flask)
+
+4.1 App Flask mínima
+4.2 Template do formulário
+4.3 Rota que recebe o CPF e chama o porteiro
+4.4 Tela de resultado
+4.5 Teste manual e teste automatizado
+
+Capítulo 5: A fila (planilha de entrada)
+
+5.1 Definir as colunas da planilha
+5.2 Montar o candidatos.xlsx com casos de todos os desfechos, um CPF duplicado e um CPF inválido
+5.3 Ler e validar a planilha com pandas
+
+Capítulo 6: O robô (Playwright)
+
+6.1 Abrir o formulário pelo robô
+6.2 Preencher um CPF e ler o resultado
+6.3 Repetir para toda a planilha
+6.4 Timeouts e retentativas
+6.5 Logs de cada passo
+6.6 Rodar com o navegador visível
+
+Capítulo 7: A devolutiva (excel_io)
+
+7.1 Gravar status, motivo e data na planilha
+7.2 Pular linhas já processadas (idempotência)
+7.3 Gerar o arquivo de saída sem sobrescrever o original
+7.4 Testar a segunda execução
+
+Capítulo 8: O relógio (agendamento e alertas)
+
+8.1 Criar um ponto de entrada único (main.py)
+8.2 Criar o .bat que o agendador vai chamar
+8.3 Configurar o Agendador de Tarefas do Windows
+8.4 Alerta de falha (log e e-mail com smtplib)
+8.5 Validar uma execução agendada
+
+Capítulo 9: A vitrine
+
+9.1 README
+9.2 Diagrama do fluxo
+9.3 Prints do projeto rodando
+9.4 Publicar no GitHub
+9.5 Texto para o LinkedIn
