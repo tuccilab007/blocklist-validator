@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block titulo %}Validar candidato · Validador de Blocklist{% endblock %}
+
+{% block conteudo %}
+{# Os ids abaixo são o "contrato" com o robô (Capítulo 6): não mude sem avisar. #}
+{# novalidate: quem valida de verdade é o servidor (o porteiro), não o navegador. #}
+<form id="form-validacao" method="post" action="/validar" novalidate>
+  <label for="cpf">CPF do candidato</label>
+  <input id="cpf" name="cpf" type="text" inputmode="numeric" autocomplete="off"
+         maxlength="14" placeholder="000.000.000-00" value="{{ cpf|default('') }}" autofocus>
+  <button id="btn-validar" type="submit">Validar</button>
+</form>
+{% endblock %}
