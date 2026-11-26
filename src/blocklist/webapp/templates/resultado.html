@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block titulo %}Resultado · Validador de Blocklist{% endblock %}
+
+{% block conteudo %}
+{# Contrato com o robô (Capítulo 6): ele lê #resultado[data-status], #resultado[data-desfecho] e #resultado-motivo. #}
+{% if indisponivel %}
+<section id="resultado" data-status="INDISPONIVEL" role="alert">
+  <h2 id="resultado-status">Serviço indisponível</h2>
+  <p id="resultado-motivo">Não foi possível consultar a base agora. Tente novamente em instantes.</p>
+  <p>CPF informado: {{ cpf_exibicao }}</p>
+</section>
+{% else %}
+<section id="resultado" data-status="{{ resultado.status }}" data-desfecho="{{ resultado.desfecho.value }}">
+  <h2 id="resultado-status">{{ resultado.status }}</h2>
+  <p id="resultado-motivo">{{ resultado.motivo }}</p>
+  <p>CPF informado: {{ cpf_exibicao }}</p>
+</section>
+{% endif %}
+<p><a id="link-nova-consulta" href="/">Nova consulta</a></p>
+{% endblock %}
