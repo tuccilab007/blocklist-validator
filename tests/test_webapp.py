@@ -8,6 +8,15 @@ from blocklist.webapp.app import create_app
 APROVADO = Resultado("52998224725", Desfecho.APROVADO, "Nenhuma restrição encontrada")
 
 
+def _secao(status):
+    """Trecho que só existe no elemento #resultado da página.
+
+    Procurar só por data-status="..." na página inteira não serve: o CSS da
+    página também cita esses nomes (#resultado[data-status="APROVADO"]).
+    """
+    return f'id="resultado" data-status="{status}"'
+
+
 def _cliente(validador=None):
     app = create_app(validador) if validador else create_app()
     return app.test_client()
@@ -66,8 +75,7 @@ def test_validar_mostra_a_decisao_do_porteiro():
     )
     html = resposta.get_data(as_text=True)
     assert resposta.status_code == 200
-    assert 'id="resultado"' in html
-    assert 'data-status="APROVADO"' in html
+    assert _secao("APROVADO") in html
     assert 'data-desfecho="APROVADO"' in html
     assert "Nenhuma restrição encontrada" in html
     assert "529.982.247-25" in html  # CPF mostrado formatado
@@ -80,7 +88,8 @@ def test_reprovacao_tambem_e_http_200_e_traz_o_desfecho():
     resposta = _cliente(_validador_fixo(reprovado)).post("/validar", data={"cpf": "x"})
     html = resposta.get_data(as_text=True)
     assert resposta.status_code == 200
-    assert 'data-status="REPROVADO"' in html
+    assert _secao("REPROVADO") in html
+    assert _secao("APROVADO") not in html  # prova que a busca distingue os status
     assert 'data-desfecho="BLOQUEIO_EMPRESA"' in html
 
 
@@ -132,9 +141,10 @@ def test_falha_do_banco_vira_503_sem_decisao(erro):
     )
     html = resposta.get_data(as_text=True)
     assert resposta.status_code == 503
-    assert 'data-status="INDISPONIVEL"' in html
-    assert "APROVADO" not in html
-    assert "REPROVADO" not in html
+    assert _secao("INDISPONIVEL") in html
+    # Só as páginas com decisão trazem o desfecho: aqui não pode existir.
+    assert "data-desfecho" not in html
+    assert 'id="resultado-status">Serviço indisponível' in html
 
 
 # Elenco do seed no PostgreSQL real, passando pelo formulário de verdade.
@@ -151,5 +161,5 @@ def test_formulario_com_banco_real(engine_real, cpf, status, desfecho):
     resposta = _cliente().post("/validar", data={"cpf": cpf})
     html = resposta.get_data(as_text=True)
     assert resposta.status_code == 200
-    assert f'data-status="{status}"' in html
+    assert _secao(status) in html
     assert f'data-desfecho="{desfecho}"' in html
